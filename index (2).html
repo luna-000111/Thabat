@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thabat — ثبات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a2e;
+      --ink-soft: rgba(26,26,46,.62);
+      --ink-dim: rgba(26,26,46,.38);
+      --bg: #f7f8fc;
+      --surface: #ffffff;
+      --surface-tint: #f4f3ff;
+      --border: rgba(100,80,220,.13);
+      --p: #6c5ce7;
+      --p-light: #a29bfe;
+      --p-dark: #4c3aaf;
+      --font-body:   'DM Sans', system-ui, sans-serif;
+      --font-serif:  'Playfair Display', Georgia, serif;
+      --font-arabic: 'Amiri', serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 65% 50% at 18% 12%, rgba(162,155,254,.22) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 55% at 82% 88%, rgba(253,121,168,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 40% at 60% 4%,  rgba(212,168,83,.09) 0%, transparent 50%);
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      width: 640px; height: 640px;
+      border-radius: 50%;
+      border: 1px solid rgba(108,92,231,.06);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none; z-index: 0;
+      animation: slowSpin 100s linear infinite;
+    }
+    @keyframes slowSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    .page {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+
+    /* ── Panel ── */
+    .panel {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem 3.5rem 2.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      box-shadow:
+        0 24px 60px rgba(108,92,231,.13),
+        0 6px 20px rgba(108,92,231,.08);
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp .9s cubic-bezier(.22,1,.36,1) .15s forwards;
+    }
+
+    /* ── Title ── */
+    .arabic-big {
+      font-family: var(--font-arabic);
+      font-size: clamp(3.2rem, 8vw, 5rem);
+      line-height: 1; margin-bottom: .08em;
+      background: linear-gradient(100deg, var(--p) 0%, var(--p-light) 55%, #fd79a8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .latin-name {
+      font-family: var(--font-serif);
+      font-weight: 900; font-size: clamp(1rem, 2.5vw, 1.45rem);
+      letter-spacing: .06em;
+      background: linear-gradient(100deg, var(--p) 0%, var(--p-light) 55%, #fd79a8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 1.6rem;
+    }
+
+    /* ── Description ── */
+    .description {
+      font-size: .9rem;
+      line-height: 1.72;
+      color: var(--ink-soft);
+      max-width: 36ch;
+      margin-bottom: .9rem;
+    }
+
+    .description strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+      margin-bottom: 2.2rem;
+      width: 100%;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      background: var(--surface-tint);
+      border: 1px solid rgba(108,92,231,.08);
+      border-radius: 10px;
+      padding: .55rem .85rem;
+      font-size: .8rem;
+      color: var(--ink-soft);
+      text-align: left;
+    }
+
+    .feature-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Language cards ── */
+    .lang-grid {
+      display: flex;
+      gap: .85rem;
+      justify-content: center;
+    }
+
+    .lang-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .45rem;
+      width: clamp(100px, 14vw, 128px);
+      padding: 1.15rem .8rem 1rem;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink);
+      box-shadow:
+        0 4px 14px rgba(108,92,231,.10),
+        0 1px 3px rgba(108,92,231,.07);
+      transition:
+        box-shadow .25s cubic-bezier(.22,1,.36,1),
+        border-color .25s,
+        transform .25s cubic-bezier(.22,1,.36,1);
+    }
+
+    .lang-card:hover {
+      border-color: rgba(108,92,231,.30);
+      box-shadow:
+        0 12px 36px rgba(108,92,231,.18),
+        0 3px 8px rgba(108,92,231,.10);
+      transform: translateY(-5px);
+    }
+
+    .lang-flag { font-size: 1.55rem; transition: transform .25s; }
+    .lang-card:hover .lang-flag { transform: scale(1.1); }
+
+    .lang-native {
+      font-family: var(--font-serif);
+      font-weight: 700; font-size: 1.05rem;
+      color: var(--p-dark); line-height: 1;
+      transition: color .22s;
+    }
+    .lang-card:hover .lang-native { color: var(--p); }
+
+    .lang-label {
+      font-size: .6rem; font-weight: 600;
+      letter-spacing: .26em; text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 1.6rem;
+      display: flex; flex-direction: column;
+      align-items: center; gap: .35rem;
+      opacity: 0;
+      animation: fadeUp .85s cubic-bezier(.22,1,.36,1) .75s forwards;
+    }
+
+    .footer-copy {
+      font-size: .64rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+
+    .footer-sub {
+      font-size: .59rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--ink-dim); opacity: .6;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      .panel { padding: 2.4rem 1.6rem 2.2rem; }
+      .lang-grid { gap: .6rem; }
+      .lang-card { width: clamp(88px, 28vw, 115px); padding: .9rem .6rem .8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="page">
+
+    <div class="panel">
+
+      <div class="arabic-big">ثبات</div>
+      <div class="latin-name">Thabat</div>
+
+      <p class="description">
+        A space to nourish the heart with <strong>Qurʾān and Sunnah</strong> —
+        in daily trials, difficult questions, moments of doubt.
+      </p>
+
+      <div class="features">
+        <div class="feature"><span class="feature-icon">🃏</span> Daily cards on Names of Allah, Āyāt, Ḥadīth and Science</div>
+        <div class="feature"><span class="feature-icon">💬</span> Personalised guidance based on how you feel</div>
+        <div class="feature"><span class="feature-icon">🕌</span> Ṣalāh, faith, doubts — explored without pressure</div>
+      </div>
+
+      <nav class="lang-grid" aria-label="Language selection">
+
+        <a class="lang-card" href="thabat_v24.html" hreflang="it">
+          <span class="lang-flag">🇮🇹</span>
+          <span class="lang-native">Italiano</span>
+          <span class="lang-label">Italian</span>
+        </a>
+
+        <a class="lang-card" href="thabat_en.html" hreflang="en">
+          <span class="lang-flag">🇬🇧</span>
+          <span class="lang-native">English</span>
+          <span class="lang-label">Inglese</span>
+        </a>
+
+        <a class="lang-card" href="thabat_fr.html" hreflang="fr">
+          <span class="lang-flag">🇫🇷</span>
+          <span class="lang-native">Français</span>
+          <span class="lang-label">French</span>
+        </a>
+
+      </nav>
+
+      <div style="margin-top:1.2rem; width:100%; display:flex; justify-content:center;">
+        <a href="thabat_quiz.html" target="_blank" style="
+          display:flex; align-items:center; gap:.7rem;
+          padding:.7rem 1.4rem;
+          background:linear-gradient(135deg,rgba(212,168,83,.12),rgba(212,168,83,.06));
+          border:1.5px solid rgba(212,168,83,.35);
+          border-radius:12px;
+          text-decoration:none;
+          color:#92580a;
+          font-size:.82rem; font-weight:600;
+          letter-spacing:.02em;
+          transition:all .22s;
+          " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(212,168,83,.2)';this.style.borderColor='rgba(212,168,83,.6)'"
+            onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='rgba(212,168,83,.35)'">
+          <span style="font-size:1.1rem;">🎯</span>
+          <span>Islamic Knowledge Quiz</span>
+          <span style="font-size:.7rem; opacity:.55; font-weight:400;">— test yourself →</span>
+        </a>
+      </div>
+
+    </div>
+
+    <footer class="footer">
+      <p class="footer-copy">&copy; <script>document.write(new Date().getFullYear())</script> Thabat — ثبات &nbsp;·&nbsp; All rights reserved</p>
+      <p class="footer-sub">Contents based on Qurʾān and Sunnah &nbsp;·&nbsp; Personal &amp; educational use</p>
+    </footer>
+
+  </main>
+
+</body>
+</html>
